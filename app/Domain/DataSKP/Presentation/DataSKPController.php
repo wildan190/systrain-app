@@ -7,6 +7,7 @@ use App\Domain\DataSKP\Action\Destroy;
 use App\Domain\DataSKP\Infrastructure\DataSKPRepository;
 use App\Domain\DetailPeserta\Model\DetailPeserta;
 use App\Http\Controllers\Controller;
+use App\Jobs\ProcessSKPData;
 use Illuminate\Http\Request;
 
 class DataSKPController extends Controller
@@ -86,7 +87,8 @@ class DataSKPController extends Controller
 
         $data = array_merge($request->except($fileFields), $fileUploads);
 
-        $action->execute(new Request($data), $detailPesertaId);
+        // Dispatch job untuk memproses data ke queue Redis
+        ProcessSKPData::dispatch($detailPesertaId, $data, new Request($data));
 
         return redirect()->back()->with('success', 'Data SKP berhasil diperbarui.');
     }

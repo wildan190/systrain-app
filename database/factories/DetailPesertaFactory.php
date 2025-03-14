@@ -3,7 +3,7 @@
 namespace Database\Factories;
 
 use App\Domain\Category\Model\Category;
-use App\Domain\DetailPeserta\Model\DetailPeserta;
+use App\Models\DetailPeserta;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class DetailPesertaFactory extends Factory

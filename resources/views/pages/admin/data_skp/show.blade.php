@@ -1,7 +1,7 @@
 <x-layouts.app title="Data SKP - Detail Peserta {{ $detailPesertaId }}">
     <div class="min-h-screen bg-gray-100 dark:bg-gray-900 flex items-center justify-center p-6">
-        <div class="bg-white dark:bg-gray-800 shadow-md rounded-lg p-8 w-full max-w-4xl">
-            <h2 class="text-2xl font-semibold text-center mb-6">Data SKP - Detail Peserta {{ $detailPesertaId }}</h2>
+        <div class="bg-white dark:bg-gray-800 shadow-lg rounded-lg p-8 w-full max-w-4xl transition-all">
+            <h2 class="text-3xl font-bold text-center mb-6 text-gray-800 dark:text-gray-200">Data SKP - Detail Peserta {{ $detailPesertaId }}</h2>
 
             <!-- Flash Message -->
             @if (session('success'))
@@ -12,6 +12,8 @@
                         text: '{{ session('success') }}',
                         timer: 3000,
                         showConfirmButton: false
+                    }).then(() => {
+                        location.reload();  // Auto-reload setelah notifikasi
                     });
                 </script>
             @endif
@@ -26,11 +28,10 @@
                 </script>
             @endif
 
-            <form id="uploadForm" action="{{ route('data_skp.store', $detailPesertaId) }}" method="POST"
-                enctype="multipart/form-data">
+            <form id="uploadForm" action="{{ route('data_skp.store', $detailPesertaId) }}" method="POST" enctype="multipart/form-data">
                 @csrf
 
-                <div class="grid grid-cols-2 gap-4">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     @php
                         $fields = [
                             'upload_surat_permohonan' => 'Surat Permohonan',
@@ -52,11 +53,11 @@
                     @endphp
 
                     @foreach ($fields as $field => $label)
-                        <div x-data="{ fileName: '', filePreview: null }" class="space-y-2">
-                            <label class="font-semibold text-gray-700">{{ $label }}</label>
+                        <div x-data="{ fileName: '', filePreview: null }" class="space-y-3">
+                            <label class="font-semibold text-gray-700 dark:text-gray-300">{{ $label }}</label>
 
-                            <!-- Drag & Drop + Klik untuk Open File Dialog -->
-                            <div class="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center cursor-pointer bg-gray-50 hover:bg-gray-100"
+                            <!-- Drag & Drop Area -->
+                            <div class="border-2 border-dashed border-gray-300 dark:border-gray-500 rounded-lg p-4 text-center cursor-pointer bg-gray-50 dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 transition"
                                 @dragover.prevent
                                 @drop.prevent="filePreview = URL.createObjectURL($event.dataTransfer.files[0]); fileName = $event.dataTransfer.files[0].name; $refs.inputField.files = $event.dataTransfer.files"
                                 @click="$refs.inputField.click()">
@@ -66,17 +67,17 @@
                                     @change="filePreview = URL.createObjectURL($event.target.files[0]); fileName = $event.target.files[0].name">
                             </div>
 
-                            <!-- Preview Nama File + Tombol Batal -->
-                            <div x-show="fileName" class="flex items-center justify-between bg-blue-100 p-2 rounded-lg">
-                                <span class="text-sm text-gray-700 truncate" x-text="fileName"></span>
+                            <!-- File Preview -->
+                            <div x-show="fileName" class="flex items-center justify-between bg-blue-100 dark:bg-blue-800 p-2 rounded-lg">
+                                <span class="text-sm text-gray-700 dark:text-gray-300 truncate" x-text="fileName"></span>
                                 <button type="button"
                                     @click="fileName = ''; filePreview = null; $refs.inputField.value = ''"
-                                    class="text-red-500 text-lg">&times;</button>
+                                    class="text-red-500 hover:text-red-700 text-lg transition">&times;</button>
                             </div>
 
-                            <!-- Link Preview jika file sudah diunggah -->
+                            <!-- Link Preview jika file sudah ada -->
                             @if ($dataSKP && $dataSKP->$field)
-                                <div class="text-sm text-blue-500">
+                                <div class="text-sm text-blue-500 dark:text-blue-300">
                                     <a href="{{ $dataSKP->{$field . '_url'} }}" target="_blank"
                                         class="underline">Preview di tab baru</a>
                                 </div>
@@ -85,25 +86,26 @@
                     @endforeach
                 </div>
 
-                <div class="flex justify-between items-center mt-6">
+                <!-- Tombol Aksi -->
+                <div class="flex justify-between items-center mt-8">
                     <a href="{{ route('detail_peserta.index') }}"
-                        class="bg-gray-500 hover:bg-gray-600 text-white px-6 py-2 rounded-md">
+                        class="bg-gray-600 hover:bg-gray-700 text-white px-6 py-2 rounded-lg shadow-md transition">
                         Kembali
                     </a>
                     <button type="button" id="submitButton"
-                        class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-md">
+                        class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg shadow-md transition">
                         Simpan Data SKP
                     </button>
                 </div>
             </form>
 
+            <!-- Tombol Hapus -->
             @if ($dataSKP)
-                <form id="deleteForm" action="{{ route('data_skp.destroy', $dataSKP->id) }}" method="POST"
-                    class="mt-4">
+                <form id="deleteForm" action="{{ route('data_skp.destroy', $dataSKP->id) }}" method="POST" class="mt-4">
                     @csrf
                     @method('DELETE')
                     <button type="button" id="deleteButton"
-                        class="bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded-md w-full">
+                        class="bg-red-600 hover:bg-red-700 text-white px-6 py-2 rounded-lg w-full shadow-md transition">
                         Hapus Data SKP
                     </button>
                 </form>
@@ -127,6 +129,15 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     document.getElementById('uploadForm').submit();
+                    Swal.fire({
+                        title: 'Unggah Data Selesai',
+                        text: "Data SKP berhasil disimpan.",
+                        icon: 'success',
+                        showConfirmButton: false,
+                        timer: 2000
+                    }).then(() => {
+                        location.reload();  // Auto-reload halaman setelah upload selesai
+                    });
                 }
             });
         });
