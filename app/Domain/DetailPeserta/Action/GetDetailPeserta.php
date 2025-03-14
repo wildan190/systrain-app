@@ -6,8 +6,8 @@ use App\Domain\DetailPeserta\Model\DetailPeserta;
 
 class GetDetailPeserta
 {
-  public static function handle()
-  {
-    return DetailPeserta::with('category')->get();
-  }
+    public static function handle()
+    {
+        return DetailPeserta::with('category')->get();
+    }
 }

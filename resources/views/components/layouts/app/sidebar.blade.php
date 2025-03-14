@@ -17,6 +17,13 @@
                 </flux:navlist.group>
             </flux:navlist>
 
+            <flux:navlist variant="inline">
+                <flux:navlist.group :heading="__('Menu')" class="grid">
+                    <flux:navlist.item icon="folder" :href="route('categories.index')" :current="request()->routeIs('categories.index')" wire:navigate>{{ __('Category') }}</flux:navlist.item>
+                    <flux:navlist.item icon="users" :href="route('detail_peserta.index')" :current="request()->routeIs('detail_peserta.index')" wire:navigate>{{ __('Daftar Peserta') }}</flux:navlist.item>
+                </flux:navlist.group>
+            </flux:navlist>
+
             <flux:spacer />
 
             <flux:navlist variant="outline">
