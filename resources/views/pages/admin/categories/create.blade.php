@@ -11,16 +11,31 @@
         <div class="bg-white dark:bg-gray-900 p-6 rounded-lg shadow-md border border-gray-200 dark:border-gray-700">
             <form id="create-form" action="{{ route('categories.store') }}" method="POST" class="space-y-4">
                 @csrf
+                
+                @if ($errors->any())
+                    <div class="bg-red-100 dark:bg-red-700 text-red-700 dark:text-red-100 border border-red-400 dark:border-red-600 rounded-lg p-4">
+                        <div class="flex items
+                        -center">
+                            <i class="fas fa-exclamation-circle"></i>
+                            <span class="ml-2 font-semibold">Terjadi kesalahan!</span>
+                        </div>
+                        <ul class="mt-2 list-disc list-inside">
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
                 <div>
-                    <label class="block text-gray-700 dark:text-gray-300 font-medium">Nama Kategori</label>
-                    <input type="text" name="nama_kategori"
-                        class="w-full border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-800 rounded-lg p-2 focus:ring-2 focus:ring-blue-500"
-                        required>
+                  <label class="block text-gray-700 dark:text-gray-300 font-medium">Nama Kategori</label>
+                  <input type="text" name="nama_kategori" placeholder="Masukkan nama kategori"
+                    class="w-full border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-800 rounded-lg p-2 focus:ring-2 focus:ring-blue-500"
+                    required>
                 </div>
                 <div>
-                    <label class="block text-gray-700 dark:text-gray-300 font-medium">Deskripsi</label>
-                    <textarea name="deskripsi"
-                        class="w-full border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-800 rounded-lg p-2 focus:ring-2 focus:ring-blue-500"></textarea>
+                  <label class="block text-gray-700 dark:text-gray-300 font-medium">Deskripsi</label>
+                  <textarea name="deskripsi" placeholder="Masukkan deskripsi kategori"
+                    class="w-full border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-800 rounded-lg p-2 focus:ring-2 focus:ring-blue-500"></textarea>
                 </div>
                 <button type="submit"
                     class="w-full px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg shadow-md transition-all">
