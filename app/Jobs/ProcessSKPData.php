@@ -4,6 +4,7 @@ namespace App\Jobs;
 
 use App\Domain\DataSKP\Action\CreateOrUpdate;
 use App\Domain\DetailPeserta\Model\DetailPeserta;
+use Illuminate\Bus\Batchable;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -13,10 +14,12 @@ use Illuminate\Support\Facades\Log;
 
 class ProcessSKPData implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Batchable, Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     public $detailPesertaId;
+
     public $data;
+
     public $request;
 
     // Constructor untuk menerima data yang diperlukan
@@ -37,10 +40,10 @@ class ProcessSKPData implements ShouldQueue
             $action->execute($this->request, $this->detailPesertaId);
 
             // Menambahkan log jika berhasil
-            Log::info('Data SKP berhasil diproses untuk peserta ID ' . $this->detailPesertaId);
+            Log::info('Data SKP berhasil diproses untuk peserta ID '.$this->detailPesertaId);
         } catch (\Exception $e) {
             // Menambahkan log jika terjadi kesalahan
-            Log::error('Terjadi kesalahan saat memproses Data SKP: ' . $e->getMessage());
+            Log::error('Terjadi kesalahan saat memproses Data SKP: '.$e->getMessage());
         }
     }
 }
