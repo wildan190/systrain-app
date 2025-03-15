@@ -90,7 +90,7 @@
                     confirmButtonText: "Ya, hapus!"
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        document.getElementById("delete-form").setAttribute("action", "/detail-peserta/delete/" + id);
+                        document.getElementById("delete-form").setAttribute("action", "/detail-peserta/" + id);
                         document.getElementById("delete-form").submit();
                     }
                 });

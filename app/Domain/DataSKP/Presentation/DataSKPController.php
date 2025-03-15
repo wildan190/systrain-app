@@ -7,7 +7,12 @@ use App\Domain\DataSKP\Action\Destroy;
 use App\Domain\DataSKP\Infrastructure\DataSKPRepository;
 use App\Domain\DetailPeserta\Model\DetailPeserta;
 use App\Http\Controllers\Controller;
+use App\Jobs\ProcessSKPData;
+use Illuminate\Bus\Batch;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Bus;
+use Illuminate\Support\Facades\Log;
+use Throwable;
 
 class DataSKPController extends Controller
 {
@@ -56,9 +61,9 @@ class DataSKPController extends Controller
 
     public function store(Request $request, CreateOrUpdate $action, $detailPesertaId)
     {
-        $detailPeserta = DetailPeserta::findOrFail($detailPesertaId); // Ambil data peserta
-
-        $fileUploads = [];
+        $detailPeserta = DetailPeserta::findOrFail($detailPesertaId);
+    
+        // Validasi file harus PDF dan maksimal 5MB
         $fileFields = [
             'upload_surat_permohonan',
             'upload_sertifikat_pembinaan',
@@ -76,20 +81,43 @@ class DataSKPController extends Controller
             'upload_laporan_kegiatan',
             'upload_sk_pensiun',
         ];
-
+    
+        $rules = [];
+        foreach ($fileFields as $field) {
+            $rules[$field] = 'nullable|file|mimes:pdf|max:5120'; // Maksimum 5MB (5120 KB)
+        }
+    
+        $validatedData = $request->validate($rules);
+    
+        $fileUploads = [];
+    
         foreach ($fileFields as $field) {
             if ($request->hasFile($field)) {
                 $filename = $field.'_'.time().'.'.$request->file($field)->getClientOriginalExtension();
                 $fileUploads[$field] = $this->repository->uploadFileToGoogleDrive($request->file($field), $filename, $detailPeserta);
             }
         }
-
+    
         $data = array_merge($request->except($fileFields), $fileUploads);
-
-        $action->execute(new Request($data), $detailPesertaId);
-
-        return redirect()->back()->with('success', 'Data SKP berhasil diperbarui.');
+    
+        // Buat batch job
+        $batch = Bus::batch([
+            new ProcessSKPData($detailPesertaId, $data, new Request($data)),
+        ])
+            ->then(function (Batch $batch) {
+                Log::info('Batch Selesai: '.$batch->id);
+            })
+            ->catch(function (Batch $batch, Throwable $e) {
+                Log::error('Batch Gagal: '.$e->getMessage());
+            })
+            ->finally(function (Batch $batch) {
+                Log::info('Batch Diproses: '.$batch->id);
+            })
+            ->dispatch();
+    
+        return redirect()->back()->with('success', 'Data SKP sedang diproses dalam batch.');
     }
+    
 
     public function destroy(Destroy $action, $id)
     {
