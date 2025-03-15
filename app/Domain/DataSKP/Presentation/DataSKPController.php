@@ -7,7 +7,7 @@ use App\Domain\DataSKP\Action\Destroy;
 use App\Domain\DataSKP\Infrastructure\DataSKPRepository;
 use App\Domain\DetailPeserta\Model\DetailPeserta;
 use App\Http\Controllers\Controller;
-use App\Jobs\ProcessSKPData;
+use App\Domain\DataSKP\Job\ProcessSKPData;
 use Illuminate\Bus\Batch;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Bus;
