@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Domain\DataSKP\Presentation;
+namespace App\Domain\DataTraining\Presentation;
 
-use App\Domain\DataSKP\Action\CreateOrUpdate;
-use App\Domain\DataSKP\Action\Destroy;
-use App\Domain\DataSKP\Infrastructure\DataSKPRepository;
-use App\Domain\DataSKP\Job\ProcessSKPData;
+use App\Domain\DataTraining\Action\CreateOrUpdate;
+use App\Domain\DataTraining\Action\Destroy;
+use App\Domain\DataTraining\Infrastructure\DataTrainingRepository;
+use App\Domain\DataTraining\Job\ProcessDataTraining;
 use App\Domain\DetailPeserta\Model\DetailPeserta;
 use App\Http\Controllers\Controller;
 use Illuminate\Bus\Batch;
@@ -14,49 +14,44 @@ use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Log;
 use Throwable;
 
-class DataSKPController extends Controller
+class DataTrainingController extends Controller
 {
-    protected DataSKPRepository $repository;
+    protected DataTrainingRepository $repository;
 
-    public function __construct(DataSKPRepository $repository)
+    public function __construct(DataTrainingRepository $repository)
     {
         $this->repository = $repository;
     }
 
     public function show($detailPesertaId)
     {
-        $dataSKP = $this->repository->findByDetailPesertaId($detailPesertaId);
+        $dataTraining = $this->repository->findByDetailPesertaId($detailPesertaId);
 
         // Generate preview URLs
-        if ($dataSKP) {
+        if ($dataTraining) {
             $fileFields = [
-                'upload_surat_permohonan',
-                'upload_sertifikat_pembinaan',
-                'upload_sk_kerja',
-                'upload_surat_pernyataan_kerja',
-                'upload_rekapitulasi',
-                'upload_pas_foto',
-                'upload_ijazah_terakhir',
-                'upload_paklaring',
-                'upload_surat_pengantar',
-                'upload_pernyataan_personel',
+                'detail_peserta_id',
+                'upload_pas_foto_biru',
                 'upload_ktp',
-                'upload_keahlian_teknis',
+                'upload_npwp',
                 'upload_cv',
-                'upload_laporan_kegiatan',
-                'upload_sk_pensiun',
+                'upload_sk_kerja',
+                'upload_keterangan_sehat',
+                'upload_pakta_integritas',
+                'upload_ijazah',
+                'upload_sertifikat_k3',
             ];
 
             foreach ($fileFields as $field) {
-                if ($dataSKP->$field) {
-                    $dataSKP->{$field.'_url'} = $this->repository->getGoogleDriveFileUrl($dataSKP->$field);
+                if ($dataTraining->$field) {
+                    $dataTraining->{$field.'_url'} = $this->repository->getGoogleDriveFileUrl($dataTraining->$field);
                 } else {
-                    $dataSKP->{$field.'_url'} = null;
+                    $dataTraining->{$field.'_url'} = null;
                 }
             }
         }
 
-        return view('pages.admin.data_skp.show', compact('dataSKP', 'detailPesertaId'));
+        return view('pages.admin.data_training.show', compact('dataTraining', 'detailPesertaId'));
     }
 
     public function store(Request $request, CreateOrUpdate $action, $detailPesertaId)
@@ -65,21 +60,16 @@ class DataSKPController extends Controller
 
         // Validasi file harus PDF dan maksimal 5MB
         $fileFields = [
-            'upload_surat_permohonan',
-            'upload_sertifikat_pembinaan',
-            'upload_sk_kerja',
-            'upload_surat_pernyataan_kerja',
-            'upload_rekapitulasi',
-            'upload_pas_foto',
-            'upload_ijazah_terakhir',
-            'upload_paklaring',
-            'upload_surat_pengantar',
-            'upload_pernyataan_personel',
+            'detail_peserta_id',
+            'upload_pas_foto_biru',
             'upload_ktp',
-            'upload_keahlian_teknis',
+            'upload_npwp',
             'upload_cv',
-            'upload_laporan_kegiatan',
-            'upload_sk_pensiun',
+            'upload_sk_kerja',
+            'upload_keterangan_sehat',
+            'upload_pakta_integritas',
+            'upload_ijazah',
+            'upload_sertifikat_k3',
         ];
 
         $rules = [];
@@ -102,7 +92,7 @@ class DataSKPController extends Controller
 
         // Buat batch job
         $batch = Bus::batch([
-            new ProcessSKPData($detailPesertaId, $data, new Request($data)),
+            new ProcessDataTraining($detailPesertaId, $data, new Request($data)),
         ])
             ->then(function (Batch $batch) {
                 Log::info('Batch Selesai: '.$batch->id);
@@ -115,13 +105,13 @@ class DataSKPController extends Controller
             })
             ->dispatch();
 
-        return redirect()->back()->with('success', 'Data SKP sedang diproses dalam batch.');
+        return redirect()->back()->with('success', 'Data Training sedang diproses dalam batch.');
     }
 
     public function destroy(Destroy $action, $id)
     {
         $action->execute($id);
 
-        return redirect()->back()->with('success', 'Data SKP berhasil dihapus dari database.');
+        return redirect()->back()->with('success', 'Data Training berhasil dihapus dari database.');
     }
 }

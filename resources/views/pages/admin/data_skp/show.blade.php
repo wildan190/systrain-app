@@ -57,14 +57,14 @@
                                     class="text-red-500 hover:text-red-700 text-lg transition">&times;</button>
                             </div>
 
-                            <div class="relative w-full bg-gray-200 rounded-lg hidden" id="progress-{{ $field }}">
-    <div class="absolute left-0 top-0 h-2 bg-blue-500 rounded-lg transition-all"
-        style="width: 0%;" id="progress-bar-{{ $field }}"></div>
-    <span class="absolute left-0 right-0 top-0 bottom-0 flex items-center justify-center text-sm font-semibold text-gray-800 dark:text-gray-200"
-        id="progress-text-{{ $field }}">0%</span>
-</div>
-
-
+                            <div class="relative w-full bg-gray-200 rounded-lg hidden"
+                                id="progress-{{ $field }}">
+                                <div class="absolute left-0 top-0 h-2 bg-blue-500 rounded-lg transition-all"
+                                    style="width: 0%;" id="progress-bar-{{ $field }}"></div>
+                                <span
+                                    class="absolute left-0 right-0 top-0 bottom-0 flex items-center justify-center text-sm font-semibold text-gray-800 dark:text-gray-200"
+                                    id="progress-text-{{ $field }}">0%</span>
+                            </div>
                             @if ($dataSKP && $dataSKP->$field)
                                 <div class="text-sm text-blue-500 dark:text-blue-300">
                                     <a href="{{ $dataSKP->{$field . '_url'} }}" target="_blank"
@@ -162,10 +162,10 @@
                     'Content-Type': 'multipart/form-data'
                 },
                 onUploadProgress: function(event) {
-    let percent = Math.round((event.loaded / event.total) * 100);
-    progressFill.style.width = percent + '%';
-    document.getElementById(`progress-text-${fieldName}`).textContent = percent + '%';
-}
+                    let percent = Math.round((event.loaded / event.total) * 100);
+                    progressFill.style.width = percent + '%';
+                    document.getElementById(`progress-text-${fieldName}`).textContent = percent + '%';
+                }
 
             }).then(response => {
                 showToast("File " + fieldName + " berhasil diunggah!", "success");

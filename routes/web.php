@@ -2,6 +2,7 @@
 
 use App\Domain\Category\Presentation\CategoryController;
 use App\Domain\DataSKP\Presentation\DataSKPController;
+use App\Domain\DataTraining\Presentation\DataTrainingController;
 use App\Domain\DetailPeserta\Presentation\DetailPesertaController;
 use App\Livewire\Settings\Appearance;
 use App\Livewire\Settings\Password;
@@ -46,6 +47,10 @@ Route::middleware(['auth', 'verified'])->prefix('admin/detail-peserta')->group(f
     Route::get('data-skp/{id}', [DataSKPController::class, 'show'])->name('data_skp.show');
     Route::post('data-skp/{id}', [DataSKPController::class, 'store'])->name('data_skp.store');
     Route::delete('data-skp/{id}', [DataSKPController::class, 'destroy'])->name('data_skp.destroy');
+
+    Route::get('data-training/{id}', [DataTrainingController::class, 'show'])->name('data_training.show');
+    Route::post('data-training/{id}', [DataTrainingController::class, 'store'])->name('data_training.store');
+    Route::delete('data-training/{id}', [DataTrainingController::class, 'destroy'])->name('data_training.destroy');
 });
 
 require __DIR__.'/auth.php';

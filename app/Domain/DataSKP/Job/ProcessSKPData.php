@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Jobs;
+namespace App\Domain\DataSKP\Job;
 
 use App\Domain\DataSKP\Action\CreateOrUpdate;
 use App\Domain\DetailPeserta\Model\DetailPeserta;
