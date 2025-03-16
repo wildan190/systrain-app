@@ -101,40 +101,6 @@ class DataTrainingRepository implements DataTrainingRepositoryInterface
         return $uploadedFile->id;
     }
 
-    /**
-     * Fungsi untuk mendapatkan folder berdasarkan NIK atau membuatnya jika belum ada
-     */
-
-    /*private function getOrCreateFolder($driveService, $folderName, $parentFolderId)
-      {
-          // Cek apakah folder sudah ada
-          $query = "name = '$folderName' and mimeType = 'application/vnd.google-apps.folder' and '$parentFolderId' in parents and trashed = false";
-          $existingFolders = $driveService->files->listFiles([
-              'q' => $query,
-              'fields' => 'files(id, name)',
-          ]);
-
-          if (count($existingFolders->files) > 0) {
-              return $existingFolders->files[0]->id; // Folder sudah ada, pakai ID ini
-          }
-
-          // Jika folder tidak ditemukan, buat baru
-          $folderMetadata = new Drive\DriveFile([
-              'name' => $folderName,
-              'mimeType' => 'application/vnd.google-apps.folder',
-              'parents' => [$parentFolderId], // Simpan di folder utama
-          ]);
-
-          $folder = $driveService->files->create($folderMetadata, [
-              'fields' => 'id',
-          ]);
-
-          return $folder->id; // Return ID folder yang baru dibuat
-      }*/
-
-    /**
-     * Fungsi untuk mendapatkan folder berdasarkan NIK atau membuatnya jika belum ada
-     */
     private function getOrCreateFolder($driveService, $nik, $parentFolderId)
     {
         // Format nama folder: Training_NIK
