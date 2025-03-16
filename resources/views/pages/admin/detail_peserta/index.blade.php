@@ -67,22 +67,25 @@
 
                         <img src="{{ asset('assets/img/avatar.png') }}" alt="Avatar"
                             class="w-20 h-20 rounded-full mx-auto mb-4">
-                        <h2 class="text-xl font-semibold text-center text-gray-900 dark:text-white">{{ $item->nama }}</h2>
+                        <h2 class="text-xl font-semibold text-center text-gray-900 dark:text-white">{{ $item->nama }}
+                        </h2>
                         <p class="text-gray-600 dark:text-gray-400 text-center">{{ $item->email }}</p>
-                        <p class="text-gray-700 dark:text-gray-300 text-center"><i class="fas fa-phone"></i> {{ $item->telepon }}</p>
-                        <p class="text-gray-500 text-sm text-center">Bergabung: {{ $item->created_at->format('d M Y') }}</p>
+                        <p class="text-gray-700 dark:text-gray-300 text-center"><i class="fas fa-phone"></i>
+                            {{ $item->telepon }}</p>
+                        <p class="text-gray-500 text-sm text-center">Bergabung:
+                            {{ $item->created_at->format('d M Y') }}</p>
 
                         <div class="flex justify-center mt-4 space-x-4">
-    <a href="{{ route('data_skp.show', $item->id) }}"
-        class="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-medium px-4 py-2 rounded-lg shadow-md transition duration-300">
-        <i class="fas fa-file-alt"></i> Doc SKP
-    </a>
-    
-    <a href="{{ route('data_training.show', $item->id) }}"
-        class="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white font-medium px-4 py-2 rounded-lg shadow-md transition duration-300">
-        <i class="fas fa-file-alt"></i> Data Training
-    </a>
-</div>
+                            <a href="{{ route('data_skp.show', $item->id) }}"
+                                class="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-medium px-4 py-2 rounded-lg shadow-md transition duration-300">
+                                <i class="fas fa-file-alt"></i> Doc SKP
+                            </a>
+
+                            <a href="{{ route('data_training.show', $item->id) }}"
+                                class="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white font-medium px-4 py-2 rounded-lg shadow-md transition duration-300">
+                                <i class="fas fa-file-alt"></i> Data Training
+                            </a>
+                        </div>
 
                     </div>
                 @endforeach

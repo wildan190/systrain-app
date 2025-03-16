@@ -31,15 +31,15 @@ class DataTrainingController extends Controller
         if ($dataTraining) {
             $fileFields = [
                 'detail_peserta_id',
-        'upload_pas_foto_biru',
-        'upload_ktp',
-        'upload_npwp',
-        'upload_cv',
-        'upload_sk_kerja',
-        'upload_keterangan_sehat',
-        'upload_pakta_integritas',
-        'upload_ijazah',
-        'upload_sertifikat_k3',
+                'upload_pas_foto_biru',
+                'upload_ktp',
+                'upload_npwp',
+                'upload_cv',
+                'upload_sk_kerja',
+                'upload_keterangan_sehat',
+                'upload_pakta_integritas',
+                'upload_ijazah',
+                'upload_sertifikat_k3',
             ];
 
             foreach ($fileFields as $field) {
@@ -61,15 +61,15 @@ class DataTrainingController extends Controller
         // Validasi file harus PDF dan maksimal 5MB
         $fileFields = [
             'detail_peserta_id',
-        'upload_pas_foto_biru',
-        'upload_ktp',
-        'upload_npwp',
-        'upload_cv',
-        'upload_sk_kerja',
-        'upload_keterangan_sehat',
-        'upload_pakta_integritas',
-        'upload_ijazah',
-        'upload_sertifikat_k3',
+            'upload_pas_foto_biru',
+            'upload_ktp',
+            'upload_npwp',
+            'upload_cv',
+            'upload_sk_kerja',
+            'upload_keterangan_sehat',
+            'upload_pakta_integritas',
+            'upload_ijazah',
+            'upload_sertifikat_k3',
         ];
 
         $rules = [];
