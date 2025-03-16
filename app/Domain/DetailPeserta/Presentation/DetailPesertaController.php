@@ -99,11 +99,11 @@ class DetailPesertaController extends Controller
         UpdateDetailPeserta::handle($peserta, $data);
 
         return response()->json([
-          'success' => true,
-          'message' => 'Peserta berhasil diperbarui',
-          'redirect' => route('detail_peserta.index')
-      ]);
-      
+            'success' => true,
+            'message' => 'Peserta berhasil diperbarui',
+            'redirect' => route('detail_peserta.index'),
+        ]);
+
     }
 
     public function destroy($id)
