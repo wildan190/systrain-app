@@ -10,6 +10,8 @@ class DetailPeserta extends Model
 {
     use HasFactory;
 
+    protected $table = 'detail_pesertas';
+
     protected $fillable = [
         'nama',
         'email',

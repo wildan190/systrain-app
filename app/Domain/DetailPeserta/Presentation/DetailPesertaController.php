@@ -3,6 +3,7 @@
 namespace App\Domain\DetailPeserta\Presentation;
 
 use App\Domain\Category\Model\Category;
+use App\Domain\DetailPerusahaan\Model\DetailPerusahaan;
 use App\Domain\DetailPeserta\Action\CreateDetailPeserta;
 use App\Domain\DetailPeserta\Action\DestroyDetailPeserta;
 use App\Domain\DetailPeserta\Action\UpdateDetailPeserta;
@@ -64,10 +65,11 @@ class DetailPesertaController extends Controller
 
     public function edit($id)
     {
+        $detailPerusahaan = DetailPerusahaan::where('detail_peserta_id', $id)->first();
         $peserta = $this->detailPesertaRepository->findById($id);
         $categories = Category::all();
 
-        return view('pages.admin.detail_peserta.edit', compact('peserta', 'categories'));
+        return view('pages.admin.detail_peserta.edit', compact('peserta', 'categories', 'detailPerusahaan'));
     }
 
     public function update(Request $request, $id)
@@ -96,7 +98,12 @@ class DetailPesertaController extends Controller
         $peserta = $this->detailPesertaRepository->findById($id);
         UpdateDetailPeserta::handle($peserta, $data);
 
-        return redirect()->route('detail_peserta.index')->with('success', 'Peserta berhasil diperbarui');
+        return response()->json([
+          'success' => true,
+          'message' => 'Peserta berhasil diperbarui',
+          'redirect' => route('detail_peserta.index')
+      ]);
+      
     }
 
     public function destroy($id)

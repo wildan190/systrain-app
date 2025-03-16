@@ -18,7 +18,6 @@
                     </div>
                 @endif
 
-                <!-- 🔹 DATA PRIBADI -->
                 <fieldset class="border p-4 rounded-lg mb-6">
                     <legend class="text-lg font-semibold px-2">Data Pribadi</legend>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -90,7 +89,6 @@
                     </div>
                 </fieldset>
 
-                <!-- 🔹 PENDIDIKAN -->
                 <fieldset class="border p-4 rounded-lg mb-6">
                     <legend class="text-lg font-semibold px-2">Pendidikan</legend>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -118,7 +116,6 @@
                     </div>
                 </fieldset>
 
-                <!-- 🔹 TEMPAT & TANGGAL LAHIR -->
                 <fieldset class="border p-4 rounded-lg mb-6">
                     <legend class="text-lg font-semibold px-2">Tempat & Tanggal Lahir</legend>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -138,7 +135,6 @@
                     </div>
                 </fieldset>
 
-                <!-- 🔹 ALAMAT -->
                 <fieldset class="border p-4 rounded-lg mb-6">
                     <legend class="text-lg font-semibold px-2">Alamat</legend>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -163,7 +159,57 @@
                     </div>
                 </fieldset>
 
-                <!-- 🔹 TOMBOL -->
+                <fieldset class="border p-4 rounded-lg mb-6 dark:border-gray-700">
+                    <legend class="text-lg font-semibold px-2 dark:text-gray-200">Detail Perusahaan</legend>
+
+                    @if ($detailPerusahaan)
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-gray-700 dark:text-gray-300">Kode Perusahaan</label>
+                                <input type="text" value="{{ $detailPerusahaan->kode_perusahaan ?? '-' }}"
+                                    class="w-full border rounded-md px-4 py-2 bg-gray-100 dark:bg-gray-800 dark:text-gray-200 dark:border-gray-600"
+                                    readonly>
+                            </div>
+                            <div>
+                                <label class="block text-gray-700 dark:text-gray-300">Nama Perusahaan</label>
+                                <input type="text" value="{{ $detailPerusahaan->nama_perusahaan ?? '-' }}"
+                                    class="w-full border rounded-md px-4 py-2 bg-gray-100 dark:bg-gray-800 dark:text-gray-200 dark:border-gray-600"
+                                    readonly>
+                            </div>
+                            <div>
+                                <label class="block text-gray-700 dark:text-gray-300">Alamat</label>
+                                <textarea
+                                    class="w-full border rounded-md px-4 py-2 bg-gray-100 dark:bg-gray-800 dark:text-gray-200 dark:border-gray-600"
+                                    readonly>{{ $detailPerusahaan->alamat ?? '-' }}</textarea>
+                            </div>
+                            <div>
+                                <label class="block text-gray-700 dark:text-gray-300">Telepon</label>
+                                <input type="text" value="{{ $detailPerusahaan->telepon ?? '-' }}"
+                                    class="w-full border rounded-md px-4 py-2 bg-gray-100 dark:bg-gray-800 dark:text-gray-200 dark:border-gray-600"
+                                    readonly>
+                            </div>
+                            <div>
+                                <label class="block text-gray-700 dark:text-gray-300">Jabatan</label>
+                                <input type="text" value="{{ $detailPerusahaan->jabatan ?? '-' }}"
+                                    class="w-full border rounded-md px-4 py-2 bg-gray-100 dark:bg-gray-800 dark:text-gray-200 dark:border-gray-600"
+                                    readonly>
+                            </div>
+                        </div>
+
+                        <div class="mt-4 text-right">
+                            <a href="{{ route('detail_perusahaan.show', $peserta->id) }}"
+                                class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-md">Edit</a>
+                        </div>
+                    @else
+                        <p class="text-gray-600 dark:text-gray-400">Detail perusahaan belum tersedia.</p>
+                        <div class="mt-4 text-right">
+                            <a href="{{ route('detail_perusahaan.show', $peserta->id) }}"
+                                class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-md">Tambah Detail
+                                Perusahaan</a>
+                        </div>
+                    @endif
+                </fieldset>
+
                 <div class="flex justify-between items-center mt-6">
                     <a href="{{ route('detail_peserta.index') }}"
                         class="bg-gray-500 hover:bg-gray-600 text-white px-6 py-2 rounded-md">Kembali</a>
