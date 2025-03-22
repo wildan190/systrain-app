@@ -16,7 +16,7 @@
             @endif
 
             <!-- Form untuk menyimpan Detail Perusahaan -->
-            <form action="{{ route('detail_perusahaan.store', $detailPesertaId) }}" method="POST">
+            <form id="formDetailPerusahaan" action="{{ route('detail_perusahaan.store', $detailPesertaId) }}" method="POST">
                 @csrf
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -58,10 +58,31 @@
 
                 <!-- Tombol Simpan -->
                 <div class="flex justify-between items-center mt-6">
-                    <a href="{{ route('detail_peserta.index') }}" class="bg-gray-500 hover:bg-gray-600 text-white px-6 py-2 rounded-md">Batal</a>
+                    <a href="{{ route('detail_peserta.index') }}" class="bg-gray-500 hover:bg-gray-600 text-white px-6 py-2 rounded-md">Kembali</a>
                     <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-md">Simpan</button>
                 </div>
             </form>
         </div>
     </div>
+
+    <!-- Tambahkan SweetAlert dan Skrip Redirect -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        document.getElementById('formDetailPerusahaan').addEventListener('submit', function(event) {
+            event.preventDefault(); // Mencegah form langsung submit
+
+            let form = this;
+
+            Swal.fire({
+                title: 'Sukses!',
+                text: 'Detail Perusahaan berhasil ditambahkan',
+                icon: 'success',
+                confirmButtonText: 'OK'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    form.submit(); // Submit form setelah Swal ditutup
+                }
+            });
+        });
+    </script>
 </x-layouts.app>

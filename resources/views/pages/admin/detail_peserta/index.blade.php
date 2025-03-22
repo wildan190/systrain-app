@@ -76,10 +76,10 @@
                             {{ $item->created_at->format('d M Y') }}</p>
 
                         <div class="flex justify-center mt-4 space-x-4">
-                            <a href="{{ route('data_skp.show', $item->id) }}"
+                            {{-- <a href="{{ route('data_skp.show', $item->id) }}"
                                 class="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-medium px-4 py-2 rounded-lg shadow-md transition duration-300">
                                 <i class="fas fa-file-alt"></i> Doc SKP
-                            </a>
+                            </a> --}}
 
                             <a href="{{ route('data_training.show', $item->id) }}"
                                 class="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white font-medium px-4 py-2 rounded-lg shadow-md transition duration-300">

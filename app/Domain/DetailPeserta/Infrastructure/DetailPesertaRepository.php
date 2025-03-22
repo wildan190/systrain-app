@@ -14,6 +14,8 @@ class DetailPesertaRepository implements DetailPesertaRepositoryInterface
         if ($search) {
             $query->where('nama', 'like', "%$search%")
                 ->orWhere('email', 'like', "%$search%")
+                ->orWhere('nomor_induk_kependudukan', 'like', "%$search%")
+                ->orWhere('nama_perusahaan', 'like', "%$search%")
                 ->orWhere('telepon', 'like', "%$search%");
         }
 
