@@ -72,6 +72,11 @@
                         <p class="text-gray-600 dark:text-gray-400 text-center">{{ $item->email }}</p>
                         <p class="text-gray-700 dark:text-gray-300 text-center"><i class="fas fa-phone"></i>
                             {{ $item->telepon }}</p>
+                        <p class="text-green-500 dark:text-green-400 text-center">
+                            <a href="https://wa.me/{{ $item->telepon }}" target="_blank">
+                                <i class="fab fa-whatsapp"></i> Chat via WhatsApp
+                            </a>
+                        </p>
                         <p class="text-yellow-500 dark:text-yellow-400 text-center">
                             {{ $item->category->nama_kategori }}</p>
                         <p class="text-gray-500 text-sm text-center">Bergabung:
