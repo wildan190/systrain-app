@@ -98,11 +98,7 @@ class DetailPesertaController extends Controller
         $peserta = $this->detailPesertaRepository->findById($id);
         UpdateDetailPeserta::handle($peserta, $data);
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Peserta berhasil diperbarui',
-            'redirect' => route('detail_peserta.index'),
-        ]);
+        return redirect()->route('detail_peserta.index')->with('success', 'Peserta berhasil diubah');
 
     }
 
