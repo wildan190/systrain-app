@@ -136,7 +136,7 @@
                     confirmButtonText: "Ya, hapus!"
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        document.getElementById("delete-form").setAttribute("action", "/program/delete/" + id);
+                        document.getElementById("delete-form").setAttribute("action", "/admin/program/delete/" + id);
                         document.getElementById("delete-form").submit();
                     }
                 });
