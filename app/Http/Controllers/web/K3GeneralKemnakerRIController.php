@@ -2,17 +2,18 @@
 
 namespace App\Http\Controllers\Web;
 
+use App\Domain\DetailPeserta\Model\DetailPeserta;
+use App\Domain\Program\Model\DetailProgram;
+use App\Domain\Program\Model\Program;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Domain\DetailPeserta\Model\DetailPeserta;
-use App\Domain\Program\Model\Program;
-use App\Domain\Program\Model\DetailProgram;
 
 class K3GeneralKemnakerRIController extends Controller
 {
     public function index()
     {
         $programs = Program::all(); // Ambil semua program untuk select option
+
         return view('pages.web.k3_general_kemnaker-ri.index', compact('programs'));
     }
 
@@ -45,7 +46,7 @@ class K3GeneralKemnakerRIController extends Controller
         ]);
 
         // Buat nomor peserta
-        $nomorPeserta = 'P-' . str_pad(DetailProgram::max('id') + 1, 5, '0', STR_PAD_LEFT);
+        $nomorPeserta = 'P-'.str_pad(DetailProgram::max('id') + 1, 5, '0', STR_PAD_LEFT);
 
         // Simpan ke tabel detail_programs
         DetailProgram::create([

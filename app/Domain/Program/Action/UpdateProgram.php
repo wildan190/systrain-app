@@ -9,6 +9,7 @@ class UpdateProgram
     public static function handle(Program $program, array $data)
     {
         $program->update($data);
+
         return $program;
     }
 }

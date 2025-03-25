@@ -13,7 +13,7 @@ class ProgramRepository implements ProgramRepositoryInterface
 
         if ($search) {
             $query->where('nama_program', 'like', "%$search%")
-                  ->orWhere('batch', 'like', "%$search%");
+                ->orWhere('batch', 'like', "%$search%");
         }
 
         return $query->paginate($perPage);
@@ -33,6 +33,7 @@ class ProgramRepository implements ProgramRepositoryInterface
     {
         $program = Program::findOrFail($id);
         $program->update($data);
+
         return $program;
     }
 
