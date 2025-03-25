@@ -6,6 +6,7 @@ use App\Domain\DataTraining\Presentation\DataTrainingController;
 use App\Domain\DetailPerusahaan\Presentation\DetailPerusahaanController;
 use App\Domain\DetailPeserta\Presentation\DetailPesertaController;
 use App\Domain\Program\Presentation\ProgramController;
+use App\Http\Controllers\Web\K3GeneralKemnakerRIController;
 use App\Livewire\Settings\Appearance;
 use App\Livewire\Settings\Password;
 use App\Livewire\Settings\Profile;
@@ -14,6 +15,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
   return view('welcome');
 })->name('home');
+
+Route::get('/pendaftaran/k3-general-kemnaker-ri', [K3GeneralKemnakerRIController::class, 'index'])->name('k3.general.kemnaker.index');
+Route::post('/pendaftaran/k3-general-kemnaker-ri', [K3GeneralKemnakerRIController::class, 'store'])->name('k3.general.kemnaker.store');
 
 Route::view('dashboard', 'dashboard')
   ->middleware(['auth', 'verified'])
