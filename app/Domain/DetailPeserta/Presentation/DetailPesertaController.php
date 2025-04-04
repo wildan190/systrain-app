@@ -76,10 +76,10 @@ class DetailPesertaController extends Controller
     {
         $data = $request->validate([
             'nama' => 'required|string',
-            'email' => 'required|email|unique:detail_pesertas,email,'.$id,
+            'email' => 'required|email|unique:detail_pesertas,email,' . $id,
             'telepon' => 'required|string|max:13',
             'alamat' => 'required|string',
-            'nomor_induk_kependudukan' => 'required|unique:detail_pesertas,nomor_induk_kependudukan,'.$id.'|max:16',
+            'nomor_induk_kependudukan' => 'required|unique:detail_pesertas,nomor_induk_kependudukan,' . $id . '|max:16',
             'jenis_kelamin' => 'nullable|string',
             'golongan_darah' => 'nullable|string',
             'pendidikan_terakhir' => 'nullable|string',
@@ -99,7 +99,6 @@ class DetailPesertaController extends Controller
         UpdateDetailPeserta::handle($peserta, $data);
 
         return redirect()->route('detail_peserta.index')->with('success', 'Peserta berhasil diubah');
-
     }
 
     public function destroy($id)
