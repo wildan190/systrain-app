@@ -92,11 +92,16 @@ class ProgramController extends Controller
     public function addParticipants($id)
     {
         $program = $this->programRepository->findById($id);
-        $pesertas = DetailPeserta::all();
-
+    
+        // Ambil semua peserta yang sudah tergabung di program manapun
+        $assignedPesertaIds = DetailProgram::pluck('detail_peserta_id')->toArray();
+    
+        // Ambil peserta yang belum terdaftar di program manapun
+        $pesertas = DetailPeserta::whereNotIn('id', $assignedPesertaIds)->get();
+    
         return view('pages.admin.program.add_participants', compact('program', 'pesertas'));
     }
-
+    
     public function storeParticipants(Request $request, $id)
     {
         $request->validate([
@@ -106,12 +111,11 @@ class ProgramController extends Controller
         $program = $this->programRepository->findById($id);
     
         foreach ($request->detail_peserta_id as $pesertaId) {
-            // Cek apakah peserta ini sudah ada di program
-            $existing = DetailProgram::where('program_id', $program->id)
-                ->where('detail_peserta_id', $pesertaId)
-                ->exists();
+            // Cek apakah peserta ini sudah terdaftar di program manapun
+            $alreadyAssigned = DetailProgram::where('detail_peserta_id', $pesertaId)->exists();
     
-            if (!$existing) {
+            // Hanya simpan peserta yang belum tergabung di program mana pun
+            if (!$alreadyAssigned) {
                 $nomorPeserta = 'P-' . str_pad(DetailProgram::max('id') + 1, 5, '0', STR_PAD_LEFT);
     
                 DetailProgram::create([
@@ -124,6 +128,7 @@ class ProgramController extends Controller
     
         return redirect()->route('program.show', $id)->with('success', 'Peserta berhasil ditambahkan!');
     }
+    
     
 
     public function removeParticipant($id)
