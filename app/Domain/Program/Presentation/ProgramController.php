@@ -102,21 +102,29 @@ class ProgramController extends Controller
         $request->validate([
             'detail_peserta_id.*' => 'required|exists:detail_pesertas,id',
         ]);
-
+    
         $program = $this->programRepository->findById($id);
-
+    
         foreach ($request->detail_peserta_id as $pesertaId) {
-            $nomorPeserta = 'P-'.str_pad(DetailProgram::max('id') + 1, 5, '0', STR_PAD_LEFT);
-
-            DetailProgram::create([
-                'program_id' => $program->id,
-                'nomor_peserta' => $nomorPeserta,
-                'detail_peserta_id' => $pesertaId,
-            ]);
+            // Cek apakah peserta ini sudah ada di program
+            $existing = DetailProgram::where('program_id', $program->id)
+                ->where('detail_peserta_id', $pesertaId)
+                ->exists();
+    
+            if (!$existing) {
+                $nomorPeserta = 'P-' . str_pad(DetailProgram::max('id') + 1, 5, '0', STR_PAD_LEFT);
+    
+                DetailProgram::create([
+                    'program_id' => $program->id,
+                    'nomor_peserta' => $nomorPeserta,
+                    'detail_peserta_id' => $pesertaId,
+                ]);
+            }
         }
-
+    
         return redirect()->route('program.show', $id)->with('success', 'Peserta berhasil ditambahkan!');
     }
+    
 
     public function removeParticipant($id)
     {

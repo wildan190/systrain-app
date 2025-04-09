@@ -84,14 +84,15 @@
             });
         }
 
-        document.getElementById('openModal').addEventListener('click', function () {
-    updatePesertaList();
+document.getElementById('openModal').addEventListener('click', function () {
+    updatePesertaList(); // memastikan modal bersih dari peserta yg sudah dipilih
     modal.classList.remove('hidden');
     setTimeout(() => {
         modalContent.classList.remove('scale-95', 'opacity-0');
         modalContent.classList.add('scale-100', 'opacity-100');
     }, 50);
 });
+
 
 function closeModal() {
     modalContent.classList.add('scale-95', 'opacity-0');
@@ -150,12 +151,13 @@ document.addEventListener('click', function (event) {
 
 // Fungsi untuk menyembunyikan peserta yang sudah dipilih
 function updatePesertaList() {
-    document.querySelectorAll('.selected-peserta').forEach(el => {
-        let id = el.getAttribute('data-id');
-        let row = document.querySelector(`.peserta-row[data-id="${id}"]`);
+    const selectedIds = Array.from(document.querySelectorAll('.selected-peserta')).map(el => el.getAttribute('data-id'));
+    selectedIds.forEach(id => {
+        const row = document.querySelector(`.peserta-row[data-id="${id}"]`);
         if (row) row.remove();
     });
 }
+
 
 updatePesertaList();
 
