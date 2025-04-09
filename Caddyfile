@@ -1,0 +1,15 @@
+localhost:8000 {
+	tls internal {
+		on_demand
+	}
+
+	root * public
+
+	@php {
+		path *.php
+	}
+	reverse_proxy @php unix//run/php/php8.1-fpm.sock
+
+	encode gzip
+	file_server
+}

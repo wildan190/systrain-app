@@ -22,6 +22,7 @@
                     <flux:navlist.item icon="folder" :href="route('categories.index')" :current="request()->routeIs('categories.index')" wire:navigate>{{ __('Category') }}</flux:navlist.item>
                     <flux:navlist.item icon="users" :href="route('detail_peserta.index')" :current="request()->routeIs('detail_peserta.index')" wire:navigate>{{ __('Daftar Peserta') }}</flux:navlist.item>
                     <flux:navlist.item icon="clipboard" :href="route('program.index')" :current="request()->routeIs('program.index')" wire:navigate>{{ __('Program') }}</flux:navlist.item>
+                    <flux:navlist.item icon="folder" :href="route('program.index')" :current="request()->routeIs('program.index')" wire:navigate>{{ __('Master Data ') }}</flux:navlist.item>
                 </flux:navlist.group>
             </flux:navlist>
 

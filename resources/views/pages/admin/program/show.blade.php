@@ -14,7 +14,7 @@
             <p><strong>Harga:</strong> Rp {{ number_format($program->harga, 0, ',', '.') }}</p>
         </div>
 
-        <a href="{{ route('program.addParticipants', $program->id) }}" 
+        <a href="{{ route('program.addParticipants', $program->id) }}"
             class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-md">
             <i class="fas fa-user-plus"></i> Tambah Peserta
         </a>
@@ -25,30 +25,33 @@
             <p class="text-gray-500 mt-3">Belum ada peserta dalam program ini.</p>
         @else
             <table class="w-full mt-4 border-collapse border border-gray-300 dark:border-gray-600">
-    <thead>
-        <tr class="bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200">
-            <th class="border px-4 py-2">No.</th>
-            <th class="border px-4 py-2">Nomor Peserta</th>
-            <th class="border px-4 py-2">Nama Peserta</th>
-            <th class="border px-4 py-2">Aksi</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach ($pesertas as $index => $peserta)
-            <tr class="border border-gray-300 dark:border-gray-600">
-                <td class="border px-4 py-2 text-center text-gray-800 dark:text-gray-200">{{ $index + 1 }}</td>
-                <td class="border px-4 py-2 text-center text-gray-800 dark:text-gray-200">{{ $peserta->nomor_peserta }}</td>
-                <td class="border px-4 py-2 text-gray-800 dark:text-gray-200">{{ $peserta->detailPeserta->nama }}</td>
-                <td class="border px-4 py-2 text-center">
-                    <button onclick="confirmDelete({{ $peserta->id }})"
-                        class="bg-red-500 hover:bg-red-600 text-white px-3 py-2 rounded-md dark:bg-red-600 dark:hover:bg-red-700">
-                        <i class="fas fa-trash"></i> Hapus
-                    </button>
-                </td>
-            </tr>
-        @endforeach
-    </tbody>
-</table>
+                <thead>
+                    <tr class="bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200">
+                        <th class="border px-4 py-2">No.</th>
+                        <th class="border px-4 py-2">Nomor Peserta</th>
+                        <th class="border px-4 py-2">Nama Peserta</th>
+                        <th class="border px-4 py-2">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($pesertas as $index => $peserta)
+                        <tr class="border border-gray-300 dark:border-gray-600">
+                            <td class="border px-4 py-2 text-center text-gray-800 dark:text-gray-200">
+                                {{ $index + 1 }}</td>
+                            <td class="border px-4 py-2 text-center text-gray-800 dark:text-gray-200">
+                                {{ $peserta->nomor_peserta }}</td>
+                            <td class="border px-4 py-2 text-gray-800 dark:text-gray-200">
+                                {{ $peserta->detailPeserta->nama }}</td>
+                            <td class="border px-4 py-2 text-center">
+                                <button onclick="confirmDelete({{ $peserta->id }})"
+                                    class="bg-red-500 hover:bg-red-600 text-white px-3 py-2 rounded-md dark:bg-red-600 dark:hover:bg-red-700">
+                                    <i class="fas fa-trash"></i> Hapus
+                                </button>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
 
         @endif
 
@@ -69,7 +72,8 @@
                     confirmButtonText: "Ya, hapus!"
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        document.getElementById("delete-form").setAttribute("action", "/admin/program/peserta/delete/" + id);
+                        document.getElementById("delete-form").setAttribute("action", "/admin/program/peserta/delete/" +
+                            id);
                         document.getElementById("delete-form").submit();
                     }
                 });
