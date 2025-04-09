@@ -19,8 +19,7 @@ class Program extends Model
     ];
 
     public function detailPrograms()
-{
-    return $this->hasMany(DetailProgram::class, 'program_id');
-}
-
+    {
+        return $this->hasMany(DetailProgram::class, 'program_id');
+    }
 }
